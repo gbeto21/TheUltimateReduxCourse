@@ -1,32 +1,32 @@
 import * as actionTypes from "./actionTypes";
+import { createReducer } from "@reduxjs/toolkit";
 let id = 0;
 
-export default function reducer(state = [], action) {
-
-    switch (action.type) {
-
-        case actionTypes.ADD_TASK:
-            return [
-                ...state,
-                {
-                    id: ++id,
-                    task: action.payload.task,
-                    completed: false
-                }
-            ]
-
-        case actionTypes.REMOVE_TASK:
-            return state.filter(task => task.id !== action.payload.id);
-
-        case actionTypes.COMPLETE_TASK:
-
-            return state.map(task =>
-                task.id === action.payload.id ?
-                    { ...task, completed: true } :
-                    task
-            );
-
-        default:
-            return state;
-    };
-}
+export default createReducer([], builder => {
+    builder
+        .addCase(
+            actionTypes.ADD_TASK,
+            (state, action) =>
+                [
+                    ...state,
+                    {
+                        id: ++id,
+                        task: action.payload.task,
+                        completed: false
+                    }
+                ]
+        )
+        .addCase(
+            actionTypes.REMOVE_TASK,
+            (state, action) => state.filter(task => task.id !== action.payload.id)
+        )
+        .addCase(
+            actionTypes.COMPLETE_TASK,
+            (state, action) =>
+                state.map(task =>
+                    task.id === action.payload.id ?
+                        { ...task, completed: true } :
+                        task
+                )
+        )
+})
