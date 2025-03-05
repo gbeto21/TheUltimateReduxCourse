@@ -1,1 +1,2 @@
-console.log("Redux Starter Project!!");
+import store from "./store";
+console.log(store.getState());
