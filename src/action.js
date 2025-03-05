@@ -1,13 +1,8 @@
 import * as actionTypes from "./actionTypes";
+import { createAction } from "@reduxjs/toolkit";
 
-export const addTask = (task) => {
-    return { type: actionTypes.ADD_TASK, payload: { task } }
-}
+export const addTask = createAction(actionTypes.ADD_TASK);
 
-export const removeTask = (id) => {
-    return { type: actionTypes.REMOVE_TASK, payload: { id } }
-}
+export const removeTask = createAction(actionTypes.REMOVE_TASK);
 
-export const completeTask = (id) => {
-    return { type: actionTypes.COMPLETE_TASK, payload: { id } }
-}
+export const completeTask = createAction(actionTypes.COMPLETE_TASK);
