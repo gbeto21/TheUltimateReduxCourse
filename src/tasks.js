@@ -1,29 +1,60 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 let id = 0;
+const initialState = {
+    tasks: [],
+    loading: false,
+    error: null
+}
+
+export const fetchTasks = createAsyncThunk('fetchTasks', async (a, { rejectWithValue }) => {
+    try {
+        const response = await axios.get("http://localhost:5000/api/tasks")
+        return { tasks: response.data }
+    } catch (error) {
+        return rejectWithValue({ error: error.message })
+    }
+})
 
 const tasksSlice = createSlice(
     {
         name: "tasks",
-        initialState: [],
+        initialState,
         reducers: {
-            getTasks: (state, action) => action.payload.tasks,
+            getTasks: (state, action) => state.tasks = action.payload.tasks,
             addTask: (state, action) => [
-                ...state,
+                ...state.tasks,
                 {
                     id: ++id,
                     task: action.payload.task,
                     completed: false
                 }
             ],
-            removeTask: (state, action) => state.filter(task => task.id !== action.payload.id),
+            removeTask: (state, action) => state.tasks.filter(task => task.id !== action.payload.id),
             completeTask: (state, action) =>
-                state.map(task =>
+                state.tasks.map(task =>
                     task.id === action.payload.id ?
                         { ...task, completed: true } :
                         task
                 )
-        }
+        },
+        extraReducers:
+            (builder) => {
+                builder
+                    .addCase(fetchTasks.pending, (state) => {
+                        state.loading = true;
+                        state.error = null;
+                    })
+                    .addCase(fetchTasks.fulfilled, (state, action) => {
+                        state.loading = false;
+                        state.tasks = action.payload.tasks;
+                    })
+                    .addCase(fetchTasks.rejected, (state, action) => {
+                        state.loading = false;
+                        state.error = action.payload.error
+                    });
+            }
     }
 )
 
