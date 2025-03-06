@@ -7,12 +7,13 @@ const employeesSlice = createSlice(
         name: "employees",
         initialState: [],
         reducers: {
-            addEmployee: (state, action) => state.push(
+            addEmployee: (state, action) => [
+                ...state,
                 {
                     id: ++id,
                     name: action.payload.name
                 }
-            )
+            ]
         }
     }
 )
