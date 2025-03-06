@@ -8,23 +8,21 @@ const initialState = {
     error: null
 }
 
-export const fetchTasks = createAsyncThunk('fetchTasks', async (a, { rejectWithValue }) => {
-    try {
-        const response = await axios.get("/tasks")
-        return { tasks: response.data }
-    } catch (error) {
-        return rejectWithValue({ error: error.message })
-    }
-})
-
 const tasksSlice = createSlice(
     {
         name: "tasks",
         initialState,
         reducers: {
+            apiRequested: (state, action) => {
+                state.loading = true
+            },
+            apiRequestedFailed: (state, action) => {
+                state.loading = false
+            },
             getTasks: (state, action) => {
                 return {
                     ...state,
+                    loading: false,
                     tasks: action.payload
                 }
             },
@@ -43,23 +41,7 @@ const tasksSlice = createSlice(
                         { ...task, completed: true } :
                         task
                 )
-        },
-        extraReducers:
-            (builder) => {
-                builder
-                    .addCase(fetchTasks.pending, (state) => {
-                        state.loading = true;
-                        state.error = null;
-                    })
-                    .addCase(fetchTasks.fulfilled, (state, action) => {
-                        state.loading = false;
-                        state.tasks = action.payload.tasks;
-                    })
-                    .addCase(fetchTasks.rejected, (state, action) => {
-                        state.loading = false;
-                        state.error = action.payload.error
-                    });
-            }
+        }
     }
 )
 
