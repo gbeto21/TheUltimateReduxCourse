@@ -22,7 +22,12 @@ const tasksSlice = createSlice(
         name: "tasks",
         initialState,
         reducers: {
-            getTasks: (state, action) => state.tasks = action.payload.tasks,
+            getTasks: (state, action) => {
+                return {
+                    ...state,
+                    tasks: action.payload
+                }
+            },
             addTask: (state, action) => [
                 ...state.tasks,
                 {
