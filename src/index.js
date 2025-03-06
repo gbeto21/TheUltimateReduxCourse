@@ -18,3 +18,4 @@ store.dispatch(removeTask({ id: 1 }));
 
 store.dispatch(addEmployee({ name: "John" }))
 console.log(store.getState());
+store.dispatch({ type: "SHOW_ERROR", payload: { error: "Testing error" } })
