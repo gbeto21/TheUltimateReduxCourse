@@ -1,21 +1,14 @@
 import store from "./store";
-import { addTask, completeTask, removeTask } from "./tasks";
-import { addEmployee } from "./employees";
+import { getTasks } from "./tasks";
+import axios from "axios";
 
-const unsuscribe = store.subscribe(() => {
-    console.log("Updated", store.getState());
-})
+const gettingTasks = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/api/tasks")
+        store.dispatch(getTasks({ tasks: response.data }))
+    } catch (error) {
+        store.dispatch({ type: "SHOW_ERROR", payload: { error: error.message } })
+    }
+}
 
-store.dispatch(addTask({ task: "Learn Redux" }));
-store.dispatch(addTask({ task: "Learn React" }));
-console.log(store.getState());
-
-unsuscribe();
-
-store.dispatch(completeTask({ id: 2 }));
-
-store.dispatch(removeTask({ id: 1 }));
-
-store.dispatch(addEmployee({ name: "John" }))
-console.log(store.getState());
-store.dispatch({ type: "SHOW_ERROR", payload: { error: "Testing error" } })
+gettingTasks()
