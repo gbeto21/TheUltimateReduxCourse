@@ -1,9 +1,7 @@
 import store from "./store";
-import { loadTask, addNewTask } from "./tasks";
+import { loadTask, updateCompleted } from "./tasks";
 
 store.dispatch(
     loadTask()
 )
-store.dispatch(
-    addNewTask({ task: "Complete course" })
-)
+store.dispatch(updateCompleted({ id: 3, completed: true }))

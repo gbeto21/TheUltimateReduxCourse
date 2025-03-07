@@ -34,7 +34,10 @@ const tasksSlice = createSlice(
             completeTask: (state, action) =>
                 state.tasks.map(task =>
                     task.id === action.payload.id ?
-                        { ...task, completed: true } :
+                        {
+                            ...task,
+                            completed: action.payload.completed
+                        } :
                         task
                 )
         }
@@ -71,4 +74,11 @@ export const addNewTask = (task) => apiCallBegan({
     method: "POST",
     data: task,
     onSuccess: addTask.type
+})
+
+export const updateCompleted = task => apiCallBegan({
+    url: `${url}/${task.id}`,
+    method: "PATCH",
+    data: task,
+    onSuccess: completeTask.type
 })
