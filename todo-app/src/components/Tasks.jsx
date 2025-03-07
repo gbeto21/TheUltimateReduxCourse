@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { loadTasks } from "../store/tasks"
+import { useDispatch, useSelector } from "react-redux"
 
 const Tasks = () => {
 
-    const [tasks, setTasks] = useState([])
+    const { tasks, loading } = useSelector(state => state.tasks)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        store.dispatch(loadTasks())
+        dispatch(loadTasks())
     }, [])
 
-    return <div>
-        {/* {tasks.map(task => <p key={task.id}>{task.task}</p>)} */}
-    </div>
+    return (
+        <>
+            {
+                loading ? (
+                    <>
+                        <p>Loading...</p>
+                    </>
+                ) : (
+                    <div>
+                        {
+                            tasks.map((tasks) => (
+                                <p key={tasks.id}>{tasks.task}</p>
+                            ))
+                        }
+                    </div>
+                )
+            }
+        </>
+    )
 }
 
 export default Tasks
