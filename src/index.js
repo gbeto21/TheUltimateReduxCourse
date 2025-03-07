@@ -1,13 +1,13 @@
+import { apiCallBegan } from "./apiStore";
 import store from "./store";
-import { fetchTasks } from "./tasks";
 
 store.dispatch(
-    {
-        type: "apiRequest",
-        payload: {
+    apiCallBegan(
+        {
             url: "/tasks",
             onStart: "tasks/apiRequested",
             onSuccess: "tasks/getTasks",
             onError: "tasks/apiRequestFailed"
         }
-    })
+    )
+)
