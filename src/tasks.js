@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "./utils/http";
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./apiStore";
 
 let id = 0;
 const initialState = {
@@ -47,6 +47,8 @@ const tasksSlice = createSlice(
 
 export const
     {
+        apiRequested,
+        apiRequestedFailed,
         getTasks,
         addTask,
         removeTask,
@@ -54,3 +56,16 @@ export const
     } = tasksSlice.actions
 
 export default tasksSlice.reducer
+
+//Action creators
+const url = "/tasks"
+
+export const loadTask = () =>
+    apiCallBegan(
+        {
+            url,
+            onStart: apiRequested.type,
+            onSuccess: getTasks.type,
+            onError: apiRequestedFailed.type
+        }
+    )

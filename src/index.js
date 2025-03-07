@@ -1,13 +1,6 @@
-import { apiCallBegan } from "./apiStore";
 import store from "./store";
+import { loadTask } from "./tasks";
 
 store.dispatch(
-    apiCallBegan(
-        {
-            url: "/tasks",
-            onStart: "tasks/apiRequested",
-            onSuccess: "tasks/getTasks",
-            onError: "tasks/apiRequestFailed"
-        }
-    )
+    loadTask()
 )
