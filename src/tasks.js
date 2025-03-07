@@ -28,11 +28,7 @@ const tasksSlice = createSlice(
             },
             addTask: (state, action) => [
                 ...state.tasks,
-                {
-                    id: ++id,
-                    task: action.payload.task,
-                    completed: false
-                }
+                action.payload
             ],
             removeTask: (state, action) => state.tasks.filter(task => task.id !== action.payload.id),
             completeTask: (state, action) =>
@@ -69,3 +65,10 @@ export const loadTask = () =>
             onError: apiRequestedFailed.type
         }
     )
+
+export const addNewTask = (task) => apiCallBegan({
+    url,
+    method: "POST",
+    data: task,
+    onSuccess: addTask.type
+})

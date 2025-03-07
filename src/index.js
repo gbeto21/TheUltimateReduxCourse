@@ -1,6 +1,9 @@
 import store from "./store";
-import { loadTask } from "./tasks";
+import { loadTask, addNewTask } from "./tasks";
 
 store.dispatch(
     loadTask()
+)
+store.dispatch(
+    addNewTask({ task: "Complete course" })
 )
