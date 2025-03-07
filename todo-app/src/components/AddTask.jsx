@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import { addNewTask } from "../store/tasks";
+import { useDispatch } from "react-redux";
+
 
 const AddTask = () => {
 
     const [task, setTask] = useState("")
+    const dispatch = useDispatch()
 
-    const handleSubmit = () => { 
-        
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(addNewTask({ task }))
+        setTask("")
     }
 
     return (
