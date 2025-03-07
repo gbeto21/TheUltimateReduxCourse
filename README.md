@@ -31,7 +31,7 @@ cd src/backend/ && node server.js
 ```
 Command line output:
 
-![backend output](image.png)
+![backend output](./doc-images/image.png)
 
 This will run the backend on port **5000**.
 
@@ -41,7 +41,7 @@ From the root project run:
 npm run start
 ```
 Command line output:
-![first project output](image-1.png)
+![first project output](./doc-images/image-1.png)
 
 This will run the first project on port **3000**.
 
@@ -57,11 +57,11 @@ cd todo-app/ && npm run dev
 ```
 Command line output:
 
-![second project output](image-2.png)
+![second project output](./doc-images/image-2.png)
 
 This will run the second project on port **5173**.
 
 ## Redux Dev tools extension
 The 2 frontend projects work with the Redux Dev tool extension.
 
-![Redux Dev Tools Extension](image-3.png)
+![Redux Dev Tools Extension](./doc-images/image-3.png)
