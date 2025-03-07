@@ -30,8 +30,13 @@ const tasksSlice = createSlice(
                 ...state.tasks,
                 action.payload
             ],
-            removeTask: (state, action) => state.tasks.filter(task => task.id !== action.payload.id),
-            completeTask: (state, action) =>
+            removeTask: (state, action) => {
+                const index = state.tasks.findIndex(
+                    (task) => task.id === action.payload.id
+                );
+                state.tasks.splice(index, 1);
+            },
+            completeTask: (state, action) => {
                 state.tasks.map(task =>
                     task.id === action.payload.id ?
                         {
@@ -40,6 +45,7 @@ const tasksSlice = createSlice(
                         } :
                         task
                 )
+            }
         }
     }
 )
@@ -82,3 +88,11 @@ export const updateCompleted = task => apiCallBegan({
     data: task,
     onSuccess: completeTask.type
 })
+
+export const deleteTask = (task) =>
+    apiCallBegan({
+        // /tasks/6
+        url: `${url}/${task.id}`,
+        method: "DELETE",
+        onSuccess: removeTask.type,
+    });
